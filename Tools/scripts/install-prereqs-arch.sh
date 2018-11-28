@@ -7,7 +7,7 @@ command -v yaourt >/dev/null 2>&1 || { echo >&2 "Please install yaourt first. Ab
 CWD=$(pwd)
 OPT="/opt"
 
-BASE_PKGS="base-devel ccache git-core gsfonts tk wget"
+BASE_PKGS="base-devel ccache git gsfonts tk wget"
 SITL_PKGS="python2-pip python-pip wxpython opencv python2-numpy python2-scipy"
 PX4_PKGS="lib32-glibc zip zlib ncurses cmake"
 
