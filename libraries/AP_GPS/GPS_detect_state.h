@@ -31,6 +31,12 @@ struct MTK19_detect_state {
     uint8_t ck_a, ck_b;
 };
 
+struct ZHD_detect_state {
+    uint8_t payload_counter;
+    uint8_t step;
+    uint16_t ck_xor;
+};
+
 struct MTK_detect_state {
     uint8_t payload_counter;
     uint8_t step;

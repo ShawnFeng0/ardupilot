@@ -34,6 +34,7 @@
 #include "AP_GPS_SIRF.h"
 #include "AP_GPS_UBLOX.h"
 #include "AP_GPS_MAV.h"
+#include "AP_GPS_ZHD.h"
 #include "GPS_Backend.h"
 
 #if HAL_WITH_UAVCAN
@@ -525,6 +526,12 @@ void AP_GPS::detect_instance(uint8_t instance)
             AP_GPS_UBLOX::_detect(dstate->ublox_detect_state, data)) {
             new_gps = new AP_GPS_UBLOX(*this, state[instance], _port[instance]);
         }
+
+        else if ((_type[instance] == GPS_TYPE_AUTO || _type[instance] == GPS_TYPE_ZHD) &&
+            AP_GPS_ZHD::_detect(dstate->zhd_detect_state, data)) {
+            new_gps = new AP_GPS_ZHD(*this, state[instance], _port[instance]);
+        }
+
 #if !HAL_MINIMIZE_FEATURES
         // we drop the MTK drivers when building a small build as they are so rarely used
         // and are surprisingly large

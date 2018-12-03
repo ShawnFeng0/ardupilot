@@ -97,3 +97,8 @@ GTAGS
 config.mk
 *.apj
 .gdbinit
+
+# CLion
+.idea/
+cmake-build-debug/Ardupilot.cbp
+cmake-build-debug/Makefile
