@@ -1,6 +1,6 @@
 
 PWD=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
-SRC_DIR=$PWD
+SRC_DIR=$PWD/../
 
 DOCKER_REPO=apm-dev
 

@@ -57,12 +57,12 @@ restart:
                 _buffer[_payload_counter] = data;
                 _payload_counter++;
 
-                if (_payload_counter >= sizeof(_buffer)) {
+                if (_payload_counter == sizeof(_buffer)) {
                     if (_ck_xor == _buffer.msg.checksum) {
-                        _step++;
+                        _step++; // goto case 3 get msg
+                    } else {
+                        decode_init();
                     }
-                } else {
-                    decode_init();
                     goto restart;
                 }
                 break;
@@ -103,10 +103,9 @@ restart:
                 state.velocity.z = static_cast<float>(-_buffer.msg.vel_u_m_s); // negative speed against the sky
 
                 // time
-
                 if (state.status >= AP_GPS::GPS_OK_FIX_2D) {
                     if (_fix_counter == 0) {
-                        uint16_t year = _buffer.msg.year_utc;
+                        auto year = static_cast<uint8_t>(_buffer.msg.year_utc % 100);
                         auto mon = static_cast<uint8_t>(_buffer.msg.month_utc);
                         auto day = static_cast<uint8_t>(_buffer.msg.day_utc);
                         auto hour = static_cast<uint8_t>(_buffer.msg.hour_utc);
@@ -122,7 +121,7 @@ restart:
 
                         // get time in seconds since unix epoch
                         uint32_t ret = (year/4) - (GPS_LEAPSECONDS_MILLIS / 1000UL) + 367*rmon/12 + day;
-                        ret += year*365 + 10501;
+                        ret += year*365 + 10501 + 3;
                         ret = ret*24 + hour;
                         ret = ret*60 + min;
                         ret = ret*60 + sec;
@@ -141,8 +140,7 @@ restart:
                     // BCD time conversion by only doing it every 10s
                     // between those times we use the HAL system clock as
                     // an offset from the last fix
-                    _fix_counter++;
-                    if (_fix_counter == 50) {
+                    if (++_fix_counter == 50) {
                         _fix_counter = 0;
                     }
                 }
@@ -194,11 +192,13 @@ restart:
                 state.step = 0;
                 goto restart;
             }
+            break;
+
         case 4:
+            state.step = 0;
             if ((state.ck_xor >> 8) % 0xff == data) {
                 return true;
             } else {
-                state.step = 0;
                 goto restart;
             }
     }
