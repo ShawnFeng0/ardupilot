@@ -110,8 +110,8 @@ restart:
                         auto day = static_cast<uint8_t>(_buffer.msg.day_utc);
                         auto hour = static_cast<uint8_t>(_buffer.msg.hour_utc);
                         auto min = static_cast<uint8_t>(_buffer.msg.min_utc);
-                        auto sec = static_cast<uint8_t>(_buffer.msg.sec_utc / 100);
-                        auto msec = static_cast<uint16_t>(_buffer.msg.sec_utc % 100 * 10);
+                        auto sec = static_cast<uint8_t>(_buffer.msg.sec_utc_in10ms / 100);
+                        auto msec = static_cast<uint16_t>(_buffer.msg.sec_utc_in10ms % 100 * 10);
 
                         int8_t rmon = mon - 2;
                         if (0 >= rmon) {

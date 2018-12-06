@@ -43,7 +43,7 @@ private:
         uint16_t day_utc;            //2 bytes deviation 16
         uint16_t hour_utc;           //2 bytes deviation 18
         uint16_t min_utc;            //2 bytes deviation 20
-        uint16_t sec_utc;            //2 bytes deviation 22
+        uint16_t sec_utc_in10ms;     //2 bytes deviation 22
         double latitude;             //8 bytes deviation 24
         double longitude;            //8 bytes deviation 32
         double altitude;             //8 bytes deviation 40
